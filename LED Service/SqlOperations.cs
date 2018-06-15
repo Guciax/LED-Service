@@ -11,7 +11,55 @@ namespace LED_Service
 {
     class SqlOperations
     {
-        
+
+        public static void SaveRecordToDb(List<SaveRecord> saveData)
+        {
+            using (SqlConnection openCon = new SqlConnection(@"Data Source=MSTMS010;Initial Catalog=MES;User Id=mes;Password=mes;"))
+            {
+                string save = "INSERT into tb_NaprawaLED_Karta_Pracy (Data,Operator,Model,SerialNo,OpisNaprawy,NaprawianyKomponent,WynikNaprawy) VALUES (@Data,@Operator,@Model,@SerialNo,@OpisNaprawy,@NaprawianyKomponent,@WynikNaprawy)";
+                using (SqlCommand querySave = new SqlCommand(save))
+                {
+                    querySave.Connection = openCon;
+                    openCon.Open();
+                    foreach (var item in saveData)
+                    {
+                        querySave.Parameters.Clear();
+                        querySave.Parameters.Add("@Data", SqlDbType.SmallDateTime).Value = DateTime.Now;
+                        querySave.Parameters.Add("@Operator", SqlDbType.NVarChar).Value = item.Oper;
+                        querySave.Parameters.Add("@Model", SqlDbType.NVarChar).Value = item.Model; ;
+                        querySave.Parameters.Add("@SerialNo", SqlDbType.NVarChar).Value = item.SerialNo; ;
+                        querySave.Parameters.Add("@OpisNaprawy", SqlDbType.NVarChar).Value = item.JobDescription; ;
+                        querySave.Parameters.Add("@NaprawianyKomponent", SqlDbType.NVarChar).Value = item.CompRef; ;
+                        querySave.Parameters.Add("@WynikNaprawy", SqlDbType.NVarChar).Value = item.Result; ;
+                        querySave.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        public static string[] GetListOfOperators()
+        {
+            HashSet<string> result = new HashSet<string>();
+
+            DataTable sqlTable = new DataTable();
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = @"Data Source=MSTMS010;Initial Catalog=MES;User Id=mes;Password=mes;";
+
+            SqlCommand command = new SqlCommand();
+            command.Connection = conn;
+            command.CommandText = String.Format(@"SELECT Operator FROM tb_NaprawaLED_Karta_Pracy;");
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(sqlTable);
+
+            foreach (DataRow row in sqlTable.Rows)
+            {
+                result.Add(row["Operator"].ToString());
+            }
+
+            return result.ToArray();
+        }
+
         public static DataTable GetVisualInspectionInfo(string lot)
         {
             DataTable sqlTableLot = new DataTable();
