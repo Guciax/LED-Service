@@ -1,10 +1,14 @@
-﻿using LED_Service.Data_Structures;
+﻿using AForge.Video;
+using AForge.Video.DirectShow;
+using LED_Service.Data_Structures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,33 +18,62 @@ namespace LED_Service
 {
     public partial class Form1 : Form
     {
+        FilterInfoCollection CaptureDevice;
+        VideoCaptureDevice FinalFrame;
+        string deviceMonikerString = "";
+        Bitmap camFrameBitmap;
+
         public Form1()
         {
             InitializeComponent();
         }
-
-        private void LviAdded(ListViewItem itm)
-        {
-            //do something with the added item 
-        }
-
+        
         private void Form1_Load(object sender, EventArgs e)
         {
             dataGridViewHistory.DataSource = historyTable;
             comboBoxOperator.Items.Clear();
             comboBoxOperator.Items.AddRange(SqlOperations.GetListOfOperators());
+            var screen = Screen.FromControl(this).Bounds;
+            this.Height = screen.Height;
+            this.Width = screen.Width / 2;
+            currentLotInfo = new LotInfo("", "", 0, "", "", "", "", "", "");
+
+            FinalFrame = new VideoCaptureDevice();
+            deviceMonikerString = CameraTools.CheckDeviceMonikerString(CaptureDevice);
+            ProductionHistory.LoadHistoryFromTextFile(ref historyTable);
         }
 
         DataTable testData = new DataTable();
         DataTable visInspInfo = new DataTable();
         DataTable historyTable = new DataTable();
         LotInfo currentLotInfo = null;
+
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
                 ReadPcbQr();
             }
+        }
+
+        private List<Image> TryGetFailureImages(string lot, string serial, string date)
+        {
+            List<Image> result = new List<Image>();
+            var path = Path.Combine(@"P:\Kontrola_Wzrokowa", date, lot);
+            
+            DirectoryInfo dirNfo = new DirectoryInfo(path);
+            if (!dirNfo.Exists) return new List<Image>();
+            var files = dirNfo.GetFiles();
+
+            foreach (var file in files)
+            {
+                if (file.Name.Split('_')[0] == serial)
+                {
+                    result.Add(Image.FromFile(file.FullName));
+                }
+            }
+
+            return result;
         }
 
         private void ReadPcbQr()
@@ -52,19 +85,45 @@ namespace LED_Service
                 currentLotInfo = SqlOperations.GetLotInfo(lot);
                 visInspInfo = SqlOperations.GetVisualInspectionInfo(lot);
 
-                labelLotInfo.Text =
-                    "Dane zlecenia:" + Environment.NewLine
-                    + "Nr zlecenia:" + lot + Environment.NewLine
-                    + "Model:" + currentLotInfo.Model + Environment.NewLine
-                    + "Kitting data: " + currentLotInfo.StartDate + Environment.NewLine
-                    + "Koniec zl: " + currentLotInfo.EndDate + Environment.NewLine
-                    + "Ilość wykonana: " + currentLotInfo.ManufacturedQty;
+                if (visInspInfo.Rows.Count > 0)
+                {
+                    var date = DateTime.ParseExact(visInspInfo.Rows[0]["Data_czas"].ToString(), "dd.MM.yyyy HH:mm:ss", CultureInfo.CurrentCulture);
+                    //Data_czas 03.04.2018 07:11:00
+                    var images = TryGetFailureImages(lot, textBoxPcbQr.Text, date.ToString("dd-MM-yyyy"));
 
-                labelLedInfo.Text =
-                    "Dane LED: " + Environment.NewLine
-                    + "LED: " + currentLotInfo.LedFamily + Environment.NewLine
-                    + "RankA: " + currentLotInfo.RankA + Environment.NewLine
-                    + "RankB: " + currentLotInfo.RankB;
+                    if (images.Count>0)
+                    {
+                        buttonFailureImages.Tag = images;
+                        buttonFailureImages.Visible = true;
+                    }
+                    else
+                    {
+                        buttonFailureImages.Visible = false;
+                    }
+
+                        }
+                labelLotItem.Text = 
+                    "Nr zlecenia:" + Environment.NewLine
+                    + "Model:" + Environment.NewLine
+                    + "Kitting data: " + Environment.NewLine
+                    + "Koniec zl: " + Environment.NewLine
+                    + "Ilość wykonana: ";
+
+                labelLotValue.Text =
+                     lot + Environment.NewLine
+                    +  currentLotInfo.Model + Environment.NewLine
+                    +  currentLotInfo.StartDate + Environment.NewLine
+                    +  currentLotInfo.EndDate + Environment.NewLine
+                    + currentLotInfo.ManufacturedQty;
+
+                labelLedItem.Text =
+                     "LED: "  + Environment.NewLine
+                    + "RankA: "  + Environment.NewLine
+                    + "RankB: " ;
+                labelLedValue.Text =
+                      currentLotInfo.LedFamily + Environment.NewLine
+                    + currentLotInfo.RankA + Environment.NewLine
+                    + currentLotInfo.RankB;
 
                 string testResult = "";
                 string ngType = "";
@@ -91,14 +150,17 @@ namespace LED_Service
                     ngType = "Przyczyna NG: " + ngType;
                 }
 
-                labelTestInfo.Text =
-                    "Dane testu: " + Environment.NewLine
-                    + "Wynik testu: " + testResult + Environment.NewLine
-                    + ngType;
+                labelTestItem.Text =
+                    "Wynik: " + Environment.NewLine + ngType;
 
-                labelViInfo.Text =
-                    "Dane kontroli wzrokowej: " + Environment.NewLine
-                    + "Wynik: " + viResult;
+                labelTestValue.Text =
+                    testResult + Environment.NewLine;
+                    
+
+                labelViItem.Text =
+                    "Wynik: ";
+                labelViValue.Text =
+                     viResult;
             }
             else
             {
@@ -168,13 +230,14 @@ namespace LED_Service
             string compName = GetCompnName();
             string operationName = GetOperationName();
             string refId = textBoxCompRef.Text;
-            if (compName != "" & operationName != "" & refId!="" & !ListViewLocked())
+            if (compName != "" & operationName != "" & refId != "" & !ListViewLocked()) 
             {
                 ListViewItem newItem = new ListViewItem(refId);
                 newItem.SubItems.Add(compName);
                 newItem.SubItems.Add(operationName);
 
                 listViewOperations.Items.Add(newItem);
+                listViewOperations.BackColor = Color.White;
 
                 foreach (RadioButton radio in groupBoxComp.Controls.OfType<RadioButton>())
                 {
@@ -195,6 +258,8 @@ namespace LED_Service
             newItem.SubItems.Add("");
             newItem.SubItems.Add("Moduł OK - bez naprawy.");
             listViewOperations.Items.Add(newItem);
+            listViewOperations.BackColor = Color.White;
+
         }
 
         private void butAddScrap_Click(object sender, EventArgs e)
@@ -203,6 +268,8 @@ namespace LED_Service
             newItem.SubItems.Add("");
             newItem.SubItems.Add("SCRAP - nie kwalifikuje się do naprawy.");
             listViewOperations.Items.Add(newItem);
+            listViewOperations.BackColor = Color.White;
+
             LockListView(true);
         }
 
@@ -212,6 +279,8 @@ namespace LED_Service
             newItem.SubItems.Add("");
             newItem.SubItems.Add("SCRAP - uszkodzenie podczas naprawy.");
             listViewOperations.Items.Add(newItem);
+            listViewOperations.BackColor = Color.White;
+
             LockListView(true);
         }
 
@@ -219,41 +288,59 @@ namespace LED_Service
         {
             if (listViewOperations.SelectedItems.Count > 0) 
                 listViewOperations.Items.RemoveAt(listViewOperations.Items.IndexOf(listViewOperations.SelectedItems[0]));
+
+            bool unlock = true;
+            foreach (ListViewItem item in listViewOperations.Items)
+            {
+                if (item.Text.ToUpper().Contains("SCRAP")) unlock = false;
+            }
+            if(unlock)
+            {
+                LockListView(false);
+            }
         }
 
         private void buttonSaveToDb_Click(object sender, EventArgs e)
         {
             if (AllDataCorrect())
             {
-                ProductionHistory.AddModuleToHostory(currentLotInfo.Model, textBoxPcbQr.Text, comboBoxOperator.Text, ref historyTable);
-                foreach (DataGridViewColumn col in dataGridViewHistory.Columns)
+                using (TakePhotoForm photoForm = new TakePhotoForm(deviceMonikerString, textBoxPcbQr.Text))
                 {
-                    col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                }
-                List<SaveRecord> listToSave = new List<SaveRecord>();
-
-                foreach (ListViewItem item in listViewOperations.Items)
-                {
-                    string oper = comboBoxOperator.Text;
-                    string model = currentLotInfo.Model;
-                    string serialNo = textBoxPcbQr.Text;
-                    string jobDescription = item.SubItems[2].Text;
-                    string compRef = item.SubItems[0].Text;
-                    string result = "OK";
-
-                    if (jobDescription.Contains("SCRAP"))
+                    if (photoForm.ShowDialog() == DialogResult.OK)
                     {
-                        result = "NG";
-                    }
-                    SaveRecord saveLine = new SaveRecord(oper, model, serialNo, jobDescription, compRef, result);
-                    listToSave.Add(saveLine);
-                }
+                        ProductionHistory.AddModuleToHostory(currentLotInfo.Model, textBoxPcbQr.Text, comboBoxOperator.Text, ref historyTable);
+                        foreach (DataGridViewColumn col in dataGridViewHistory.Columns)
+                        {
+                            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                        }
+                        List<SaveRecord> listToSave = new List<SaveRecord>();
 
-                SqlOperations.SaveRecordToDb(listToSave);
-                comboBoxOperator.Items.Clear();
-                comboBoxOperator.Items.AddRange(SqlOperations.GetListOfOperators());
-                CleanUpForm();
-                textBoxPcbQr.Focus();
+                        foreach (ListViewItem item in listViewOperations.Items)
+                        {
+                            string oper = comboBoxOperator.Text;
+                            string model = currentLotInfo.Model;
+                            string serialNo = textBoxPcbQr.Text;
+                            string jobDescription = item.SubItems[2].Text;
+                            string compRef = item.SubItems[0].Text;
+                            string result = "OK";
+
+                            if (jobDescription.Contains("SCRAP"))
+                            {
+                                result = "NG";
+                            }
+                            SaveRecord saveLine = new SaveRecord(oper, model, serialNo, jobDescription, compRef, result);
+                            listToSave.Add(saveLine);
+                        }
+
+                        LockListView(false);
+                        SqlOperations.SaveRecordToDb(listToSave);
+                        comboBoxOperator.Items.Clear();
+                        comboBoxOperator.Items.AddRange(SqlOperations.GetListOfOperators());
+                        CleanUpForm();
+                        textBoxPcbQr.Focus();
+                    }
+                }
+                    
             }
         }
 
@@ -264,8 +351,12 @@ namespace LED_Service
             listViewOperations.Items.Clear();
             textBoxCompRef.Text = "";
             checkBoxLabelReapplied.Checked = false;
-            labelLotInfo.Text = "";
-            labelLedInfo.Text = "";
+            labelLotValue.Text = "";
+            labelLedValue.Text = "";
+            labelTestValue.Text = "";
+            labelViValue.Text = "";
+
+            currentLotInfo = new LotInfo("", "", 0, "", "", "", "", "", "");
 
             foreach (RadioButton rdo in groupBoxOperation.Controls.OfType<RadioButton>())
             {
@@ -281,39 +372,58 @@ namespace LED_Service
         private bool AllDataCorrect()
         {
             bool result = true;
-            if (currentLotInfo == null) result = false;
-            if (comboBoxOperator.Text == "") result = false;
-            if (listViewOperations.Items.Count == 0) result = false;
+           // if (currentLotInfo == null) result = false;
+            if (comboBoxOperator.Text == "")
+            {
+                result = false;
+                comboBoxOperator.BackColor = Color.Red;
+            }
+
+            if (listViewOperations.Items.Count == 0)
+            {
+                result = false;
+                listViewOperations.BackColor = Color.Red;
+            }
+
+            if (textBoxPcbQr.Text=="")
+            {
+                result = false;
+                textBoxPcbQr.BackColor = Color.Red;
+            }
 
             return result;
         }
 
         private void radioButtonLED_CheckedChanged(object sender, EventArgs e)
         {
-            
-                RadioButton radioChecked = (RadioButton)sender;
-                if (radioChecked.Tag != null)
-                {
-                    textBoxCompRef.Text = radioChecked.Tag.ToString();
-                    textBoxCompRef.Focus();
+            RadioButton radioChecked = (RadioButton)sender;
+            if (radioChecked.Tag != null)
+            {
+                textBoxCompRef.Text = radioChecked.Tag.ToString();
+                textBoxCompRef.Focus();
                 if (textBoxCompRef.Text.Length > 0)
                 {
                     textBoxCompRef.SelectionStart = textBoxCompRef.Text.Length; // add some logic if length is 0
                     textBoxCompRef.SelectionLength = 0;
                 }
-                    
-                }
-                else
-                {
-                    textBoxCompRef.Text = "";
-                }
-            
+            }
+            else
+            {
+                textBoxCompRef.Text = "";
+            }
         }
 
 
         private void textBoxPcbQr_TextChanged(object sender, EventArgs e)
         {
-
+            if (textBoxPcbQr.Text=="")
+            {
+                CleanUpForm();
+            }
+            if (textBoxPcbQr.BackColor==Color.Red & textBoxPcbQr.Text!="")
+            {
+                textBoxPcbQr.BackColor = Color.White;
+            }
         }
 
         private void timerKeyboardDelay_Tick(object sender, EventArgs e)
@@ -333,6 +443,119 @@ namespace LED_Service
             {
                 textBoxCompRef.Text = "";
                 radioButtonOther.Checked = false ;
+            }
+        }
+
+        private void comboBoxOperator_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxOperator.BackColor == Color.Red & comboBoxOperator.Text!="")
+            {
+                comboBoxOperator.BackColor = Color.White;
+            }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_MouseClick(object sender, MouseEventArgs e)
+        {
+            Button btn = (Button)sender;
+            textBoxCompRef.Text += btn.Text;
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            if (textBoxCompRef.Text.Length>0)
+            {
+                textBoxCompRef.Text = textBoxCompRef.Text.Substring(0, textBoxCompRef.Text.Length - 1);
+            }
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            textBoxCompRef.Text = "";
+        }
+
+        private void textBoxCompRef_Enter(object sender, EventArgs e)
+        {
+            Point locationOnForm = textBoxCompRef.FindForm().PointToClient(textBoxCompRef.Parent.PointToScreen(textBoxCompRef.Location));
+            panelKeyboard.Visible = true;
+            panelKeyboard.Location = new Point(locationOnForm.X, locationOnForm.Y + textBoxCompRef.Height);
+            panelKeyboard.Parent = this;
+            panelKeyboard.BringToFront();
+            timerVirtualKeyboard.Enabled = true;
+        }
+
+        bool mouseBeenOnceOnKeyboard = false;
+        private void timerVirtualKeyboard_Tick(object sender, EventArgs e)
+        {
+            var mousePoint = this.PointToClient(Cursor.Position);
+            Point PanellocationOnForm = panelKeyboard.FindForm().PointToClient(panelKeyboard.Parent.PointToScreen(panelKeyboard.Location));
+            Rectangle keyboardRectangle = new Rectangle(PanellocationOnForm, panelKeyboard.Size);
+            if (!keyboardRectangle.Contains(mousePoint) & mouseBeenOnceOnKeyboard)
+            {
+                panelKeyboard.Visible = false;
+                timerVirtualKeyboard.Enabled = false;
+                mouseBeenOnceOnKeyboard = false;
+            }
+            if (keyboardRectangle.Contains(mousePoint))
+            {
+                mouseBeenOnceOnKeyboard = true;
+            }
+        }
+
+        private void buttonFailureImages_Click(object sender, EventArgs e)
+        {
+            if (buttonFailureImages.Tag != null)
+            {
+                List<Image> imgList = (List<Image>)buttonFailureImages.Tag;
+                if (imgList.Count>0)
+                {
+                    ShowFailureImages imgForm = new ShowFailureImages(imgList);
+                    imgForm.ShowDialog();
+                }
             }
         }
     }

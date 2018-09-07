@@ -30,15 +30,30 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel13 = new System.Windows.Forms.Panel();
+            this.labelViValue = new System.Windows.Forms.Label();
+            this.labelViItem = new System.Windows.Forms.Label();
+            this.buttonViDetails = new System.Windows.Forms.Button();
+            this.labelViInfo = new System.Windows.Forms.Label();
+            this.panel12 = new System.Windows.Forms.Panel();
+            this.buttonTestDetails = new System.Windows.Forms.Button();
+            this.labelTestValue = new System.Windows.Forms.Label();
+            this.labelTestInfo = new System.Windows.Forms.Label();
+            this.labelTestItem = new System.Windows.Forms.Label();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.labelLedValue = new System.Windows.Forms.Label();
+            this.labelLedItem = new System.Windows.Forms.Label();
+            this.labelLedInfo = new System.Windows.Forms.Label();
+            this.panel10 = new System.Windows.Forms.Panel();
+            this.labelLotValue = new System.Windows.Forms.Label();
+            this.labelLotItem = new System.Windows.Forms.Label();
+            this.labelLotInfo = new System.Windows.Forms.Label();
+            this.panel9 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxOperator = new System.Windows.Forms.ComboBox();
-            this.buttonViDetails = new System.Windows.Forms.Button();
-            this.buttonTestDetails = new System.Windows.Forms.Button();
-            this.labelViInfo = new System.Windows.Forms.Label();
-            this.labelTestInfo = new System.Windows.Forms.Label();
-            this.labelLedInfo = new System.Windows.Forms.Label();
-            this.labelLotInfo = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
             this.textBoxPcbQr = new System.Windows.Forms.TextBox();
             this.listViewOperations = new System.Windows.Forms.ListView();
             this.colRef = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -69,6 +84,8 @@
             this.radioButtonConn = new System.Windows.Forms.RadioButton();
             this.radioButtonLED = new System.Windows.Forms.RadioButton();
             this.groupBoxOperation = new System.Windows.Forms.GroupBox();
+            this.radioButtonMaskRepair = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButtonPcbCleaning = new System.Windows.Forms.RadioButton();
             this.radioButtonWrongComp = new System.Windows.Forms.RadioButton();
             this.radioButtonSolderAdded = new System.Windows.Forms.RadioButton();
@@ -80,9 +97,29 @@
             this.timerKeyboardDelay = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButtonMaskRepair = new System.Windows.Forms.RadioButton();
+            this.panelKeyboard = new System.Windows.Forms.Panel();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.timerVirtualKeyboard = new System.Windows.Forms.Timer(this.components);
+            this.buttonFailureImages = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.panel13.SuspendLayout();
+            this.panel12.SuspendLayout();
+            this.panel11.SuspendLayout();
+            this.panel10.SuspendLayout();
+            this.panel9.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel8.SuspendLayout();
@@ -93,62 +130,84 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHistory)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panelKeyboard.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.comboBoxOperator);
-            this.panel1.Controls.Add(this.buttonViDetails);
-            this.panel1.Controls.Add(this.buttonTestDetails);
-            this.panel1.Controls.Add(this.labelViInfo);
-            this.panel1.Controls.Add(this.labelTestInfo);
-            this.panel1.Controls.Add(this.labelLedInfo);
-            this.panel1.Controls.Add(this.labelLotInfo);
-            this.panel1.Controls.Add(this.textBoxPcbQr);
+            this.panel1.BackColor = System.Drawing.Color.Black;
+            this.panel1.Controls.Add(this.tableLayoutPanel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.panel1.ForeColor = System.Drawing.SystemColors.Control;
             this.panel1.Location = new System.Drawing.Point(334, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1455, 371);
+            this.panel1.Size = new System.Drawing.Size(623, 371);
             this.panel1.TabIndex = 0;
             // 
-            // label3
+            // tableLayoutPanel2
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label3.Location = new System.Drawing.Point(2, 3);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(60, 17);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "PCB QR";
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45F));
+            this.tableLayoutPanel2.Controls.Add(this.panel13, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.panel12, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.panel11, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.panel10, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.panel9, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.panel3, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(1);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(623, 371);
+            this.tableLayoutPanel2.TabIndex = 10;
             // 
-            // label2
+            // panel13
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(2, 57);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(69, 17);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Operator:";
+            this.panel13.BackColor = System.Drawing.Color.DimGray;
+            this.panel13.Controls.Add(this.buttonFailureImages);
+            this.panel13.Controls.Add(this.labelViValue);
+            this.panel13.Controls.Add(this.labelViItem);
+            this.panel13.Controls.Add(this.buttonViDetails);
+            this.panel13.Controls.Add(this.labelViInfo);
+            this.panel13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel13.Location = new System.Drawing.Point(343, 210);
+            this.panel13.Margin = new System.Windows.Forms.Padding(1);
+            this.panel13.Name = "panel13";
+            this.panel13.Size = new System.Drawing.Size(279, 160);
+            this.panel13.TabIndex = 11;
             // 
-            // comboBoxOperator
+            // labelViValue
             // 
-            this.comboBoxOperator.FormattingEnabled = true;
-            this.comboBoxOperator.Location = new System.Drawing.Point(2, 75);
-            this.comboBoxOperator.Name = "comboBoxOperator";
-            this.comboBoxOperator.Size = new System.Drawing.Size(166, 28);
-            this.comboBoxOperator.TabIndex = 7;
+            this.labelViValue.AutoSize = true;
+            this.labelViValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelViValue.Location = new System.Drawing.Point(148, 58);
+            this.labelViValue.Name = "labelViValue";
+            this.labelViValue.Size = new System.Drawing.Size(53, 22);
+            this.labelViValue.TabIndex = 8;
+            this.labelViValue.Text = "value";
+            // 
+            // labelViItem
+            // 
+            this.labelViItem.AutoSize = true;
+            this.labelViItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelViItem.Location = new System.Drawing.Point(5, 58);
+            this.labelViItem.Name = "labelViItem";
+            this.labelViItem.Size = new System.Drawing.Size(43, 22);
+            this.labelViItem.TabIndex = 7;
+            this.labelViItem.Text = "item";
             // 
             // buttonViDetails
             // 
-            this.buttonViDetails.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.buttonViDetails.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.buttonViDetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonViDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonViDetails.Location = new System.Drawing.Point(10, 284);
+            this.buttonViDetails.Location = new System.Drawing.Point(7, 4);
             this.buttonViDetails.Name = "buttonViDetails";
             this.buttonViDetails.Size = new System.Drawing.Size(86, 27);
             this.buttonViDetails.TabIndex = 6;
@@ -156,11 +215,37 @@
             this.buttonViDetails.UseVisualStyleBackColor = false;
             this.buttonViDetails.Click += new System.EventHandler(this.buttonViDetails_Click);
             // 
+            // labelViInfo
+            // 
+            this.labelViInfo.AutoSize = true;
+            this.labelViInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelViInfo.ForeColor = System.Drawing.Color.LightSkyBlue;
+            this.labelViInfo.Location = new System.Drawing.Point(3, 31);
+            this.labelViInfo.Name = "labelViInfo";
+            this.labelViInfo.Size = new System.Drawing.Size(219, 24);
+            this.labelViInfo.TabIndex = 4;
+            this.labelViInfo.Text = "Dane kontroli wzrokowej:";
+            // 
+            // panel12
+            // 
+            this.panel12.BackColor = System.Drawing.Color.DimGray;
+            this.panel12.Controls.Add(this.buttonTestDetails);
+            this.panel12.Controls.Add(this.labelTestValue);
+            this.panel12.Controls.Add(this.labelTestInfo);
+            this.panel12.Controls.Add(this.labelTestItem);
+            this.panel12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel12.Location = new System.Drawing.Point(1, 210);
+            this.panel12.Margin = new System.Windows.Forms.Padding(1);
+            this.panel12.Name = "panel12";
+            this.panel12.Size = new System.Drawing.Size(340, 160);
+            this.panel12.TabIndex = 11;
+            // 
             // buttonTestDetails
             // 
-            this.buttonTestDetails.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.buttonTestDetails.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.buttonTestDetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonTestDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonTestDetails.Location = new System.Drawing.Point(308, 285);
+            this.buttonTestDetails.Location = new System.Drawing.Point(8, 3);
             this.buttonTestDetails.Name = "buttonTestDetails";
             this.buttonTestDetails.Size = new System.Drawing.Size(79, 24);
             this.buttonTestDetails.TabIndex = 5;
@@ -168,51 +253,187 @@
             this.buttonTestDetails.UseVisualStyleBackColor = false;
             this.buttonTestDetails.Click += new System.EventHandler(this.button1_Click);
             // 
-            // labelViInfo
+            // labelTestValue
             // 
-            this.labelViInfo.AutoSize = true;
-            this.labelViInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelViInfo.Location = new System.Drawing.Point(6, 314);
-            this.labelViInfo.Name = "labelViInfo";
-            this.labelViInfo.Size = new System.Drawing.Size(219, 24);
-            this.labelViInfo.TabIndex = 4;
-            this.labelViInfo.Text = "Dane kontroli wzrokowej:";
+            this.labelTestValue.AutoSize = true;
+            this.labelTestValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelTestValue.Location = new System.Drawing.Point(156, 54);
+            this.labelTestValue.Name = "labelTestValue";
+            this.labelTestValue.Size = new System.Drawing.Size(53, 22);
+            this.labelTestValue.TabIndex = 7;
+            this.labelTestValue.Text = "value";
             // 
             // labelTestInfo
             // 
             this.labelTestInfo.AutoSize = true;
-            this.labelTestInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelTestInfo.Location = new System.Drawing.Point(304, 314);
+            this.labelTestInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelTestInfo.ForeColor = System.Drawing.Color.LightSkyBlue;
+            this.labelTestInfo.Location = new System.Drawing.Point(4, 27);
             this.labelTestInfo.Name = "labelTestInfo";
             this.labelTestInfo.Size = new System.Drawing.Size(104, 24);
             this.labelTestInfo.TabIndex = 3;
             this.labelTestInfo.Text = "Dane testu:";
             // 
+            // labelTestItem
+            // 
+            this.labelTestItem.AutoSize = true;
+            this.labelTestItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelTestItem.Location = new System.Drawing.Point(13, 54);
+            this.labelTestItem.Name = "labelTestItem";
+            this.labelTestItem.Size = new System.Drawing.Size(43, 22);
+            this.labelTestItem.TabIndex = 6;
+            this.labelTestItem.Text = "item";
+            // 
+            // panel11
+            // 
+            this.panel11.BackColor = System.Drawing.Color.DimGray;
+            this.panel11.Controls.Add(this.labelLedValue);
+            this.panel11.Controls.Add(this.labelLedItem);
+            this.panel11.Controls.Add(this.labelLedInfo);
+            this.panel11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel11.Location = new System.Drawing.Point(343, 48);
+            this.panel11.Margin = new System.Windows.Forms.Padding(1);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(279, 160);
+            this.panel11.TabIndex = 11;
+            // 
+            // labelLedValue
+            // 
+            this.labelLedValue.AutoSize = true;
+            this.labelLedValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelLedValue.Location = new System.Drawing.Point(94, 24);
+            this.labelLedValue.Name = "labelLedValue";
+            this.labelLedValue.Size = new System.Drawing.Size(53, 22);
+            this.labelLedValue.TabIndex = 5;
+            this.labelLedValue.Text = "value";
+            // 
+            // labelLedItem
+            // 
+            this.labelLedItem.AutoSize = true;
+            this.labelLedItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelLedItem.Location = new System.Drawing.Point(6, 24);
+            this.labelLedItem.Name = "labelLedItem";
+            this.labelLedItem.Size = new System.Drawing.Size(43, 22);
+            this.labelLedItem.TabIndex = 4;
+            this.labelLedItem.Text = "item";
+            // 
             // labelLedInfo
             // 
             this.labelLedInfo.AutoSize = true;
-            this.labelLedInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelLedInfo.Location = new System.Drawing.Point(304, 123);
+            this.labelLedInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelLedInfo.ForeColor = System.Drawing.Color.LightSkyBlue;
+            this.labelLedInfo.Location = new System.Drawing.Point(3, 0);
             this.labelLedInfo.Name = "labelLedInfo";
             this.labelLedInfo.Size = new System.Drawing.Size(101, 24);
             this.labelLedInfo.TabIndex = 2;
             this.labelLedInfo.Text = "Dane LED:";
             // 
+            // panel10
+            // 
+            this.panel10.BackColor = System.Drawing.Color.DimGray;
+            this.panel10.Controls.Add(this.labelLotValue);
+            this.panel10.Controls.Add(this.labelLotItem);
+            this.panel10.Controls.Add(this.labelLotInfo);
+            this.panel10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel10.Location = new System.Drawing.Point(1, 48);
+            this.panel10.Margin = new System.Windows.Forms.Padding(1);
+            this.panel10.Name = "panel10";
+            this.panel10.Size = new System.Drawing.Size(340, 160);
+            this.panel10.TabIndex = 11;
+            // 
+            // labelLotValue
+            // 
+            this.labelLotValue.AutoSize = true;
+            this.labelLotValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelLotValue.Location = new System.Drawing.Point(145, 24);
+            this.labelLotValue.Name = "labelLotValue";
+            this.labelLotValue.Size = new System.Drawing.Size(53, 22);
+            this.labelLotValue.TabIndex = 3;
+            this.labelLotValue.Text = "value";
+            // 
+            // labelLotItem
+            // 
+            this.labelLotItem.AutoSize = true;
+            this.labelLotItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelLotItem.Location = new System.Drawing.Point(2, 24);
+            this.labelLotItem.Name = "labelLotItem";
+            this.labelLotItem.Size = new System.Drawing.Size(43, 22);
+            this.labelLotItem.TabIndex = 2;
+            this.labelLotItem.Text = "item";
+            // 
             // labelLotInfo
             // 
             this.labelLotInfo.AutoSize = true;
-            this.labelLotInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelLotInfo.Location = new System.Drawing.Point(6, 123);
+            this.labelLotInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelLotInfo.ForeColor = System.Drawing.Color.LightSkyBlue;
+            this.labelLotInfo.Location = new System.Drawing.Point(3, 0);
             this.labelLotInfo.Name = "labelLotInfo";
             this.labelLotInfo.Size = new System.Drawing.Size(135, 24);
             this.labelLotInfo.TabIndex = 1;
             this.labelLotInfo.Text = "Dane zlecenia:";
             // 
+            // panel9
+            // 
+            this.panel9.BackColor = System.Drawing.Color.DimGray;
+            this.panel9.Controls.Add(this.label2);
+            this.panel9.Controls.Add(this.comboBoxOperator);
+            this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel9.Location = new System.Drawing.Point(343, 1);
+            this.panel9.Margin = new System.Windows.Forms.Padding(1);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(279, 45);
+            this.panel9.TabIndex = 11;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label2.Location = new System.Drawing.Point(2, 1);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(58, 15);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Operator:";
+            // 
+            // comboBoxOperator
+            // 
+            this.comboBoxOperator.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.comboBoxOperator.FormattingEnabled = true;
+            this.comboBoxOperator.Location = new System.Drawing.Point(0, 17);
+            this.comboBoxOperator.Name = "comboBoxOperator";
+            this.comboBoxOperator.Size = new System.Drawing.Size(279, 28);
+            this.comboBoxOperator.TabIndex = 7;
+            this.comboBoxOperator.SelectedIndexChanged += new System.EventHandler(this.comboBoxOperator_SelectedIndexChanged);
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.DimGray;
+            this.panel3.Controls.Add(this.label3);
+            this.panel3.Controls.Add(this.textBoxPcbQr);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(1, 1);
+            this.panel3.Margin = new System.Windows.Forms.Padding(1);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(340, 45);
+            this.panel3.TabIndex = 0;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label3.Location = new System.Drawing.Point(5, 3);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(52, 15);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "PCB QR";
+            // 
             // textBoxPcbQr
             // 
-            this.textBoxPcbQr.Location = new System.Drawing.Point(2, 21);
+            this.textBoxPcbQr.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.textBoxPcbQr.Location = new System.Drawing.Point(0, 19);
             this.textBoxPcbQr.Name = "textBoxPcbQr";
-            this.textBoxPcbQr.Size = new System.Drawing.Size(166, 26);
+            this.textBoxPcbQr.Size = new System.Drawing.Size(340, 26);
             this.textBoxPcbQr.TabIndex = 0;
             this.textBoxPcbQr.TextChanged += new System.EventHandler(this.textBoxPcbQr_TextChanged);
             this.textBoxPcbQr.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
@@ -479,6 +700,7 @@
             this.textBoxCompRef.Name = "textBoxCompRef";
             this.textBoxCompRef.Size = new System.Drawing.Size(49, 26);
             this.textBoxCompRef.TabIndex = 7;
+            this.textBoxCompRef.Enter += new System.EventHandler(this.textBoxCompRef_Enter);
             // 
             // radioButtonRes
             // 
@@ -532,6 +754,27 @@
             this.groupBoxOperation.TabIndex = 4;
             this.groupBoxOperation.TabStop = false;
             this.groupBoxOperation.Text = "Rodzaj naprawy";
+            // 
+            // radioButtonMaskRepair
+            // 
+            this.radioButtonMaskRepair.Location = new System.Drawing.Point(6, 165);
+            this.radioButtonMaskRepair.Name = "radioButtonMaskRepair";
+            this.radioButtonMaskRepair.Size = new System.Drawing.Size(255, 22);
+            this.radioButtonMaskRepair.TabIndex = 7;
+            this.radioButtonMaskRepair.TabStop = true;
+            this.radioButtonMaskRepair.Text = "Naprawa maski";
+            this.radioButtonMaskRepair.UseVisualStyleBackColor = true;
+            this.radioButtonMaskRepair.CheckedChanged += new System.EventHandler(this.radioButtonPcbCleaning_CheckedChanged);
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.Location = new System.Drawing.Point(6, 189);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(255, 22);
+            this.radioButton2.TabIndex = 6;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "Inne";
+            this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // radioButtonPcbCleaning
             // 
@@ -608,10 +851,10 @@
             this.dataGridViewHistory.AllowUserToAddRows = false;
             this.dataGridViewHistory.AllowUserToDeleteRows = false;
             this.dataGridViewHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewHistory.Dock = System.Windows.Forms.DockStyle.Left;
+            this.dataGridViewHistory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewHistory.Location = new System.Drawing.Point(334, 371);
             this.dataGridViewHistory.Name = "dataGridViewHistory";
-            this.dataGridViewHistory.Size = new System.Drawing.Size(1018, 494);
+            this.dataGridViewHistory.Size = new System.Drawing.Size(623, 494);
             this.dataGridViewHistory.TabIndex = 8;
             // 
             // timerKeyboardDelay
@@ -644,32 +887,193 @@
             this.panel2.Size = new System.Drawing.Size(328, 244);
             this.panel2.TabIndex = 5;
             // 
-            // radioButton2
+            // panelKeyboard
             // 
-            this.radioButton2.Location = new System.Drawing.Point(6, 189);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(255, 22);
-            this.radioButton2.TabIndex = 6;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Inne";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.panelKeyboard.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.panelKeyboard.Controls.Add(this.button10);
+            this.panelKeyboard.Controls.Add(this.button11);
+            this.panelKeyboard.Controls.Add(this.button12);
+            this.panelKeyboard.Controls.Add(this.button7);
+            this.panelKeyboard.Controls.Add(this.button8);
+            this.panelKeyboard.Controls.Add(this.button9);
+            this.panelKeyboard.Controls.Add(this.button4);
+            this.panelKeyboard.Controls.Add(this.button5);
+            this.panelKeyboard.Controls.Add(this.button6);
+            this.panelKeyboard.Controls.Add(this.button3);
+            this.panelKeyboard.Controls.Add(this.button2);
+            this.panelKeyboard.Controls.Add(this.button1);
+            this.panelKeyboard.Location = new System.Drawing.Point(702, 651);
+            this.panelKeyboard.Name = "panelKeyboard";
+            this.panelKeyboard.Size = new System.Drawing.Size(243, 183);
+            this.panelKeyboard.TabIndex = 10;
+            this.panelKeyboard.Visible = false;
             // 
-            // radioButtonMaskRepair
+            // button10
             // 
-            this.radioButtonMaskRepair.Location = new System.Drawing.Point(6, 165);
-            this.radioButtonMaskRepair.Name = "radioButtonMaskRepair";
-            this.radioButtonMaskRepair.Size = new System.Drawing.Size(255, 22);
-            this.radioButtonMaskRepair.TabIndex = 7;
-            this.radioButtonMaskRepair.TabStop = true;
-            this.radioButtonMaskRepair.Text = "Naprawa maski";
-            this.radioButtonMaskRepair.UseVisualStyleBackColor = true;
-            this.radioButtonMaskRepair.CheckedChanged += new System.EventHandler(this.radioButtonPcbCleaning_CheckedChanged);
+            this.button10.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button10.Location = new System.Drawing.Point(180, 121);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(60, 60);
+            this.button10.TabIndex = 11;
+            this.button10.Text = "0";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
+            // 
+            // button11
+            // 
+            this.button11.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button11.Location = new System.Drawing.Point(180, 62);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(60, 60);
+            this.button11.TabIndex = 10;
+            this.button11.Text = "x";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // button12
+            // 
+            this.button12.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button12.Location = new System.Drawing.Point(180, 2);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(60, 60);
+            this.button12.TabIndex = 9;
+            this.button12.Text = "<-";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
+            // button7
+            // 
+            this.button7.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button7.Location = new System.Drawing.Point(120, 121);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(60, 60);
+            this.button7.TabIndex = 8;
+            this.button7.Text = "9";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button7.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
+            // 
+            // button8
+            // 
+            this.button8.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button8.Location = new System.Drawing.Point(61, 121);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(60, 60);
+            this.button8.TabIndex = 7;
+            this.button8.Text = "8";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.button8.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
+            // 
+            // button9
+            // 
+            this.button9.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button9.Location = new System.Drawing.Point(2, 121);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(60, 60);
+            this.button9.TabIndex = 6;
+            this.button9.Text = "7";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            this.button9.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
+            // 
+            // button4
+            // 
+            this.button4.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button4.Location = new System.Drawing.Point(120, 62);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(60, 60);
+            this.button4.TabIndex = 5;
+            this.button4.Text = "6";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
+            // 
+            // button5
+            // 
+            this.button5.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button5.Location = new System.Drawing.Point(61, 62);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(60, 60);
+            this.button5.TabIndex = 4;
+            this.button5.Text = "5";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
+            // 
+            // button6
+            // 
+            this.button6.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button6.Location = new System.Drawing.Point(2, 62);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(60, 60);
+            this.button6.TabIndex = 3;
+            this.button6.Text = "4";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
+            // 
+            // button3
+            // 
+            this.button3.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button3.Location = new System.Drawing.Point(120, 2);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(60, 60);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
+            // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button2.Location = new System.Drawing.Point(61, 2);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(60, 60);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button1.Location = new System.Drawing.Point(2, 2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(60, 60);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.button1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
+            // 
+            // timerVirtualKeyboard
+            // 
+            this.timerVirtualKeyboard.Interval = 300;
+            this.timerVirtualKeyboard.Tick += new System.EventHandler(this.timerVirtualKeyboard_Tick);
+            // 
+            // buttonFailureImages
+            // 
+            this.buttonFailureImages.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.buttonFailureImages.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonFailureImages.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.buttonFailureImages.Location = new System.Drawing.Point(99, 4);
+            this.buttonFailureImages.Name = "buttonFailureImages";
+            this.buttonFailureImages.Size = new System.Drawing.Size(86, 27);
+            this.buttonFailureImages.TabIndex = 9;
+            this.buttonFailureImages.Text = "zdjęcia";
+            this.buttonFailureImages.UseVisualStyleBackColor = false;
+            this.buttonFailureImages.Visible = false;
+            this.buttonFailureImages.Click += new System.EventHandler(this.buttonFailureImages_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1789, 865);
+            this.ClientSize = new System.Drawing.Size(957, 865);
+            this.Controls.Add(this.panelKeyboard);
             this.Controls.Add(this.dataGridViewHistory);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -677,7 +1081,19 @@
             this.Text = "Naprawa LED";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.panel13.ResumeLayout(false);
+            this.panel13.PerformLayout();
+            this.panel12.ResumeLayout(false);
+            this.panel12.PerformLayout();
+            this.panel11.ResumeLayout(false);
+            this.panel11.PerformLayout();
+            this.panel10.ResumeLayout(false);
+            this.panel10.PerformLayout();
+            this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
@@ -693,6 +1109,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHistory)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panelKeyboard.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -752,6 +1169,36 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.RadioButton radioButtonMaskRepair;
         private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Panel panel13;
+        private System.Windows.Forms.Panel panel12;
+        private System.Windows.Forms.Panel panel11;
+        private System.Windows.Forms.Panel panel10;
+        private System.Windows.Forms.Panel panel9;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label labelLotValue;
+        private System.Windows.Forms.Label labelLotItem;
+        private System.Windows.Forms.Label labelLedValue;
+        private System.Windows.Forms.Label labelLedItem;
+        private System.Windows.Forms.Label labelTestValue;
+        private System.Windows.Forms.Label labelTestItem;
+        private System.Windows.Forms.Label labelViValue;
+        private System.Windows.Forms.Label labelViItem;
+        private System.Windows.Forms.Panel panelKeyboard;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Timer timerVirtualKeyboard;
+        private System.Windows.Forms.Button buttonFailureImages;
     }
 }
 
