@@ -41,6 +41,9 @@ namespace LED_Service
             FinalFrame = new VideoCaptureDevice();
             deviceMonikerString = CameraTools.CheckDeviceMonikerString(CaptureDevice);
             ProductionHistory.LoadHistoryFromTextFile(ref historyTable);
+#if DEBUG
+            buttonDebug.Visible = true;
+#endif
         }
 
         DataTable testData = new DataTable();
@@ -315,6 +318,7 @@ namespace LED_Service
                         }
                         List<SaveRecord> listToSave = new List<SaveRecord>();
 
+                        string overallResult = "OK";
                         foreach (ListViewItem item in listViewOperations.Items)
                         {
                             string oper = comboBoxOperator.Text;
@@ -327,8 +331,10 @@ namespace LED_Service
                             if (jobDescription.Contains("SCRAP"))
                             {
                                 result = "NG";
+                                overallResult = "NG";
                             }
                             SaveRecord saveLine = new SaveRecord(oper, model, serialNo, jobDescription, compRef, result);
+
                             listToSave.Add(saveLine);
                         }
 
@@ -557,6 +563,11 @@ namespace LED_Service
                     imgForm.ShowDialog();
                 }
             }
+        }
+
+        private void buttonDebug_Click(object sender, EventArgs e)
+        {
+            SqlOperations.WriteReworkResultToNgTable("1010 117 327_1694831_258", "SCR", DateTime.Now);
         }
     }
 }

@@ -32,6 +32,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel13 = new System.Windows.Forms.Panel();
+            this.buttonFailureImages = new System.Windows.Forms.Button();
             this.labelViValue = new System.Windows.Forms.Label();
             this.labelViItem = new System.Windows.Forms.Label();
             this.buttonViDetails = new System.Windows.Forms.Button();
@@ -111,7 +112,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.timerVirtualKeyboard = new System.Windows.Forms.Timer(this.components);
-            this.buttonFailureImages = new System.Windows.Forms.Button();
+            this.buttonDebug = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel13.SuspendLayout();
@@ -181,6 +182,20 @@
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(279, 160);
             this.panel13.TabIndex = 11;
+            // 
+            // buttonFailureImages
+            // 
+            this.buttonFailureImages.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.buttonFailureImages.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonFailureImages.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.buttonFailureImages.Location = new System.Drawing.Point(99, 4);
+            this.buttonFailureImages.Name = "buttonFailureImages";
+            this.buttonFailureImages.Size = new System.Drawing.Size(86, 27);
+            this.buttonFailureImages.TabIndex = 9;
+            this.buttonFailureImages.Text = "zdjęcia";
+            this.buttonFailureImages.UseVisualStyleBackColor = false;
+            this.buttonFailureImages.Visible = false;
+            this.buttonFailureImages.Click += new System.EventHandler(this.buttonFailureImages_Click);
             // 
             // labelViValue
             // 
@@ -1054,25 +1069,23 @@
             this.timerVirtualKeyboard.Interval = 300;
             this.timerVirtualKeyboard.Tick += new System.EventHandler(this.timerVirtualKeyboard_Tick);
             // 
-            // buttonFailureImages
+            // buttonDebug
             // 
-            this.buttonFailureImages.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.buttonFailureImages.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonFailureImages.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonFailureImages.Location = new System.Drawing.Point(99, 4);
-            this.buttonFailureImages.Name = "buttonFailureImages";
-            this.buttonFailureImages.Size = new System.Drawing.Size(86, 27);
-            this.buttonFailureImages.TabIndex = 9;
-            this.buttonFailureImages.Text = "zdjęcia";
-            this.buttonFailureImages.UseVisualStyleBackColor = false;
-            this.buttonFailureImages.Visible = false;
-            this.buttonFailureImages.Click += new System.EventHandler(this.buttonFailureImages_Click);
+            this.buttonDebug.Location = new System.Drawing.Point(367, 395);
+            this.buttonDebug.Name = "buttonDebug";
+            this.buttonDebug.Size = new System.Drawing.Size(75, 23);
+            this.buttonDebug.TabIndex = 11;
+            this.buttonDebug.Text = "Debug";
+            this.buttonDebug.UseVisualStyleBackColor = true;
+            this.buttonDebug.Visible = false;
+            this.buttonDebug.Click += new System.EventHandler(this.buttonDebug_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(957, 865);
+            this.Controls.Add(this.buttonDebug);
             this.Controls.Add(this.panelKeyboard);
             this.Controls.Add(this.dataGridViewHistory);
             this.Controls.Add(this.panel1);
@@ -1199,6 +1212,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Timer timerVirtualKeyboard;
         private System.Windows.Forms.Button buttonFailureImages;
+        private System.Windows.Forms.Button buttonDebug;
     }
 }
 

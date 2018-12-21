@@ -158,5 +158,93 @@ namespace LED_Service
             }
             return new LotInfo(lot, model, manufacturedQty, startDate, endDate, rankA, rankB, mrm, ledFamily);
         }
+
+        public static void RegisterNgPcbToMes(string serial, string ngType)
+        {
+            string[] splitted = serial.Split('_');
+            string orderNo = "";
+            if (splitted.Length > 1)
+            {
+                orderNo = splitted[splitted.Length - 2];
+            }
+            using (SqlConnection openCon = new SqlConnection(@"Data Source=MSTMS010;Initial Catalog=MES;User Id=mes;Password=mes;"))
+            {
+                string save = "INSERT into tb_tester_measurements (serial_no,inspection_time,tester_id,wip_entity_id,wip_entity_name,program_id,result,ng_type) VALUES (@serial_no,@inspection_time,@tester_id,@wip_entity_id,@wip_entity_name,@program_id,@result,@ng_type)";
+                using (SqlCommand querySave = new SqlCommand(save))
+                {
+                    querySave.Connection = openCon;
+                    querySave.Parameters.Add("@serial_no", SqlDbType.NVarChar).Value = serial;
+                    querySave.Parameters.Add("@inspection_time", SqlDbType.NVarChar).Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    querySave.Parameters.Add("@tester_id", SqlDbType.TinyInt).Value = 0;
+                    querySave.Parameters.Add("@wip_entity_id", SqlDbType.Int).Value = 0;
+                    querySave.Parameters.Add("@wip_entity_name", SqlDbType.NVarChar).Value = orderNo;
+                    querySave.Parameters.Add("@program_id", SqlDbType.Int).Value = 0;
+                    querySave.Parameters.Add("@result", SqlDbType.NVarChar).Value = "NG";
+                    querySave.Parameters.Add("@ng_type", SqlDbType.NVarChar).Value = ngType;
+                    openCon.Open();
+                    querySave.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public DataTable GetNgRowsFromMeasurementTable(string serial)
+        {
+            DataTable sqlTableLot = new DataTable();
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = @"Data Source=MSTMS010;Initial Catalog=MES;User Id=mes;Password=mes;";
+
+            SqlCommand command = new SqlCommand();
+            command.Connection = conn;
+            command.CommandText = String.Format(@"SELECT serial_no,inspection_time,tester_id,rework_result FROM tb_tester_measurements WHERE serial_no = @serial ORDER BY inspection_time DESC;");
+            command.Parameters.AddWithValue("@serial", serial);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(sqlTableLot);
+
+            return sqlTableLot;
+        }
+
+        public static void WriteReworkResultToNgTable(string serial, string result, DateTime reworkDate)
+        {
+            string connectionString = @"Data Source=MSTMS010;Initial Catalog=MES;User Id=mes;Password=mes;";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlCommand command = connection.CreateCommand())
+            {
+                command.CommandText = "UPDATE MES.dbo.tb_NG_tracking SET rework_result=@result, rework_datetime=@date WHERE serial_no = @serial";
+
+                command.Parameters.AddWithValue("@result", result);
+                command.Parameters.AddWithValue("@date", reworkDate);
+                command.Parameters.AddWithValue("@serial", serial);
+
+                connection.Open();
+
+                command.ExecuteNonQuery();
+
+                connection.Close();
+            }
+        }
+
+        public static bool CheckNgTableForSerial(string serial)
+        {
+            DataTable sqlTableLot = new DataTable();
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = @"Data Source=MSTMS010;Initial Catalog=MES;User Id=mes;Password=mes;";
+
+            SqlCommand command = new SqlCommand();
+            command.Connection = conn;
+            command.CommandText = String.Format(@"SELECT serial_no FROM tb_NG_tracking WHERE serial_no=@serial;");
+            command.Parameters.AddWithValue("@serial", serial);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(sqlTableLot);
+
+            if (sqlTableLot.Rows.Count>0)
+            {
+                if (sqlTableLot.Rows[0]["serial_no"].ToString() == serial) return true;
+            }
+            return false;
+        }
+
     }
 }

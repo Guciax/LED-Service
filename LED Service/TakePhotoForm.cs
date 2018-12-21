@@ -56,7 +56,7 @@ namespace LED_Service
                 MessageBox.Show("Max 10 zdjęć. Skasuj zdjęcia aby dodać nowe.");
             }
 
-            if (flowLayoutPanel1.Controls.Count >= 2) 
+            if (flowLayoutPanel1.Controls.Count >= 1) 
             {
                 buttonSave.Enabled = true;
             }
