@@ -1,6 +1,7 @@
 ﻿using AForge.Video;
 using AForge.Video.DirectShow;
 using LED_Service.Data_Structures;
+using LED_Service.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -70,9 +71,15 @@ namespace LED_Service
 
             foreach (var file in files)
             {
-                if (file.Name.Split('_')[0] == serial)
+                if (file.Name.StartsWith(serial))
+                //filename = M8Z07J-G-MR5R529A9A801409_ngUszkodzenieMechaniczneLed_1_.jpg
                 {
-                    result.Add(Image.FromFile(file.FullName));
+                    Image img = Image.FromFile(file.FullName);
+                    string reason = file.Name.Replace(serial + "_","").Split('_')[0];
+                    string ngResult = "NG";
+                    if (!reason.StartsWith("ng")) { ngResult = "SCR"; }
+                    img.Tag = new ImageTag(ngResult, serial, reason);
+                    result.Add(img);
                 }
             }
 
@@ -81,97 +88,135 @@ namespace LED_Service
 
         private void ReadPcbQr()
         {
-            testData = SqlOperations.GetMeasurementsForPcb(textBoxPcbQr.Text);
-            if (testData.Rows.Count > 0 & textBoxPcbQr.Text.Trim()!="")
+            bool serialRegistered = SqlOperations.CheckNgTableForSerial(textBoxPcbQr.Text);
+
+            if (textBoxPcbQr.Text != "")
             {
-                string lot = testData.Rows[0]["wip_entity_name"].ToString();
-                currentLotInfo = SqlOperations.GetLotInfo(lot);
-                visInspInfo = SqlOperations.GetVisualInspectionInfo(lot);
-
-                if (visInspInfo.Rows.Count > 0)
+                testData = SqlOperations.GetMeasurementsForPcb(textBoxPcbQr.Text);
+                if (testData.Rows.Count > 0 & textBoxPcbQr.Text.Trim() != "")
                 {
-                    var date = DateTime.ParseExact(visInspInfo.Rows[0]["Data_czas"].ToString(), "dd.MM.yyyy HH:mm:ss", CultureInfo.CurrentCulture);
-                    //Data_czas 03.04.2018 07:11:00
-                    var images = TryGetFailureImages(lot, textBoxPcbQr.Text, date.ToString("dd-MM-yyyy"));
+                    string lot = testData.Rows[0]["wip_entity_name"].ToString();
+                    currentLotInfo = SqlOperations.GetLotInfo(lot);
+                    visInspInfo = SqlOperations.GetVisualInspectionInfo(lot);
 
-                    if (images.Count>0)
+                    if (visInspInfo.Rows.Count > 0)
                     {
-                        buttonFailureImages.Tag = images;
-                        buttonFailureImages.Visible = true;
-                    }
-                    else
-                    {
-                        buttonFailureImages.Visible = false;
-                    }
+                        var date = DateTime.ParseExact(visInspInfo.Rows[0]["Data_czas"].ToString(), "dd.MM.yyyy HH:mm:ss", CultureInfo.CurrentCulture);
+                        //Data_czas 03.04.2018 07:11:00
+                        var images = TryGetFailureImages(lot, textBoxPcbQr.Text, date.ToString("dd-MM-yyyy"));
 
+                        if (images.Count > 0)
+                        {
+                            //auto register NG
+                            buttonFailureImages.Tag = images;
+                            buttonFailureImages.Visible = true;
+                            if (!serialRegistered)
+                            {
+                                ImageTag tag = (ImageTag)images[0].Tag;
+                                SqlOperations.InsertPcbToNgTable(tag.Serial, tag.Result, tag.Reason);
+                            }
                         }
-                labelLotItem.Text = 
-                    "Nr zlecenia:" + Environment.NewLine
-                    + "Model:" + Environment.NewLine
-                    + "Kitting data: " + Environment.NewLine
-                    + "Koniec zl: " + Environment.NewLine
-                    + "Ilość wykonana: ";
+                        else
+                        {
+                            buttonFailureImages.Visible = false;
+                            if (!serialRegistered)
+                            {//manual register NG
+                                ManualRegisterNg();
+                                
+                            }
+                        }
 
-                labelLotValue.Text =
-                     lot + Environment.NewLine
-                    +  currentLotInfo.Model + Environment.NewLine
-                    +  currentLotInfo.StartDate + Environment.NewLine
-                    +  currentLotInfo.EndDate + Environment.NewLine
-                    + currentLotInfo.ManufacturedQty;
-
-                labelLedItem.Text =
-                     "LED: "  + Environment.NewLine
-                    + "RankA: "  + Environment.NewLine
-                    + "RankB: " ;
-                labelLedValue.Text =
-                      currentLotInfo.LedFamily + Environment.NewLine
-                    + currentLotInfo.RankA + Environment.NewLine
-                    + currentLotInfo.RankB;
-
-                string testResult = "";
-                string ngType = "";
-                string viResult = "OK";
-                foreach (DataRow row in testData.Rows)
-                {
-                    //serial_no,inspection_time,tester_id,wip_entity_id,wip_entity_name,program_id,result,ng_type,lm,lm_w,sdcm,cri,cct,v,i,w,x,y,r9,bin,lx,retest,module_num,lm1_gain,x1_offset,y1_offset,vf1_offset,cri1_offset,cct1_offset,lm1_master,x1_master,y1_master,vf1_master,cri1_master,cct1_master,hi_pot,light_on,optical,result_int FROM tb_tester_measurements
-                    if (testResult != "OK")
-                    {
-                        testResult = row["result"].ToString();
                     }
-                    if (row["result"].ToString() == "NGV")
+
+                    if (textBoxPcbQr.Text != "")
                     {
-                        viResult = "NG";
+                        labelLotItem.Text =
+                            "Nr zlecenia:" + Environment.NewLine
+                            + "Model:" + Environment.NewLine
+                            + "Kitting data: " + Environment.NewLine
+                            + "Koniec zl: " + Environment.NewLine
+                            + "Ilość wykonana: ";
+
+                        labelLotValue.Text =
+                             lot + Environment.NewLine
+                            + currentLotInfo.Model + Environment.NewLine
+                            + currentLotInfo.StartDate + Environment.NewLine
+                            + currentLotInfo.EndDate + Environment.NewLine
+                            + currentLotInfo.ManufacturedQty;
+
+                        labelLedItem.Text =
+                             "LED: " + Environment.NewLine
+                            + "RankA: " + Environment.NewLine
+                            + "RankB: ";
+                        labelLedValue.Text =
+                              currentLotInfo.LedFamily + Environment.NewLine
+                            + currentLotInfo.RankA + Environment.NewLine
+                            + currentLotInfo.RankB;
+
+                        string testResult = "";
+                        string ngType = "";
+                        string viResult = "OK";
+                        foreach (DataRow row in testData.Rows)
+                        {
+                            //serial_no,inspection_time,tester_id,wip_entity_id,wip_entity_name,program_id,result,ng_type,lm,lm_w,sdcm,cri,cct,v,i,w,x,y,r9,bin,lx,retest,module_num,lm1_gain,x1_offset,y1_offset,vf1_offset,cri1_offset,cct1_offset,lm1_master,x1_master,y1_master,vf1_master,cri1_master,cct1_master,hi_pot,light_on,optical,result_int FROM tb_tester_measurements
+                            if (testResult != "OK")
+                            {
+                                testResult = row["result"].ToString();
+                            }
+                            if (row["result"].ToString() == "NGV")
+                            {
+                                viResult = "NG";
+                            }
+                        }
+
+                        if (testResult == "NG")
+                        {
+                            foreach (DataRow row in testData.Rows)
+                            {
+                                ngType += row["ng_type"].ToString() + ", ";
+                            }
+                            ngType = "Przyczyna NG: " + ngType;
+                        }
+
+                        labelTestItem.Text =
+                            "Wynik: " + Environment.NewLine + ngType;
+
+                        labelTestValue.Text =
+                            testResult + Environment.NewLine;
+
+
+                        labelViItem.Text =
+                            "Wynik: ";
+                        labelViValue.Text =
+                             viResult;
                     }
                 }
-
-                if (testResult == "NG")
+                else
                 {
-                    foreach (DataRow row in testData.Rows)
-                    {
-                        ngType += row["ng_type"].ToString() + ", ";
-                    }
-                    ngType = "Przyczyna NG: " + ngType;
+                    labelLotInfo.Text = "";
+                    labelLedInfo.Text = "";
+                    labelTestInfo.Text = "";
+                    labelViInfo.Text = "";
+                    ManualRegisterNg();
                 }
-
-                labelTestItem.Text =
-                    "Wynik: " + Environment.NewLine + ngType;
-
-                labelTestValue.Text =
-                    testResult + Environment.NewLine;
-                    
-
-                labelViItem.Text =
-                    "Wynik: ";
-                labelViValue.Text =
-                     viResult;
             }
-            else
-            {
-                labelLotInfo.Text = "";
-                labelLedInfo.Text = "";
-                labelTestInfo.Text = "";
+        }
 
-                labelViInfo.Text = "";
+        private void ManualRegisterNg()
+        {
+            using (RegisterNg regForm = new RegisterNg(textBoxPcbQr.Text))
+            {
+                if (regForm.ShowDialog() == DialogResult.OK)
+                {
+
+                    string result = "NG";
+                    if (!regForm.buttonClicked.StartsWith("ng")) { result = "SCR"; }
+                    SqlOperations.InsertPcbToNgTable(textBoxPcbQr.Text, result, regForm.buttonClicked);
+                }
+                else
+                {
+                    textBoxPcbQr.Text = ""; //hmmmmmmmmmmm
+                }
             }
         }
 
@@ -340,6 +385,10 @@ namespace LED_Service
 
                         LockListView(false);
                         SqlOperations.SaveRecordToDb(listToSave);
+                        if (SqlOperations.CheckNgTableForSerial(textBoxPcbQr.Text))
+                        {
+                            SqlOperations.UpdateReworkResultToNgTable(textBoxPcbQr.Text, overallResult, DateTime.Now);
+                        }
                         comboBoxOperator.Items.Clear();
                         comboBoxOperator.Items.AddRange(SqlOperations.GetListOfOperators());
                         CleanUpForm();
@@ -567,7 +616,7 @@ namespace LED_Service
 
         private void buttonDebug_Click(object sender, EventArgs e)
         {
-            SqlOperations.WriteReworkResultToNgTable("1010 117 327_1694831_258", "SCR", DateTime.Now);
+           
         }
     }
 }

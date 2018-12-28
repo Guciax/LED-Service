@@ -204,7 +204,7 @@ namespace LED_Service
             return sqlTableLot;
         }
 
-        public static void WriteReworkResultToNgTable(string serial, string result, DateTime reworkDate)
+        public static void UpdateReworkResultToNgTable(string serial, string result, DateTime reworkDate)
         {
             string connectionString = @"Data Source=MSTMS010;Initial Catalog=MES;User Id=mes;Password=mes;";
 
@@ -239,12 +239,65 @@ namespace LED_Service
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             adapter.Fill(sqlTableLot);
 
-            if (sqlTableLot.Rows.Count>0)
-            {
-                if (sqlTableLot.Rows[0]["serial_no"].ToString() == serial) return true;
-            }
-            return false;
+            return sqlTableLot.Rows.Count > 0;
         }
 
+        public static void InsertPcbToNgTable(string pcbSerial, string result, string ngReason)
+        {
+            using (SqlConnection openCon = new SqlConnection(@"Data Source=MSTMS010;Initial Catalog=MES;User Id=mes;Password=mes;"))
+            {
+                openCon.Open();
+                    string save = "INSERT into tb_NG_tracking (serial_no, result, ng_type, datetime) VALUES (@serial_no, @result, @ng_type, @datetime)";
+                    using (SqlCommand querySave = new SqlCommand(save))
+                    {
+                        querySave.Connection = openCon;
+                        querySave.Parameters.Add("@serial_no", SqlDbType.NVarChar).Value = pcbSerial;
+                        querySave.Parameters.Add("@result", SqlDbType.NVarChar).Value = result;
+                        querySave.Parameters.Add("@ng_type", SqlDbType.NVarChar).Value = ngReason;
+                        querySave.Parameters.Add("@datetime", SqlDbType.SmallDateTime).Value = DateTime.Now;
+                        querySave.ExecuteNonQuery();
+                    }
+            }
+        }
+
+        public static Dictionary<string, List<string>> GetNgScrapColumns()
+        {
+            Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
+            result.Add("NG", new List<string>());
+            result.Add("SCRAP", new List<string>());
+            DataTable sqlTableLot = new DataTable();
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = @"Data Source=MSTMS010;Initial Catalog=MES;User Id=mes;Password=mes;";
+
+            SqlCommand command = new SqlCommand();
+            command.Connection = conn;
+            command.CommandText = String.Format(@"SELECT * FROM MES.dbo.tb_Kontrola_Wizualna_Karta_Pracy WHERE 1=2");
+            var columns = new List<string>();
+            using (var dr = command.ExecuteReader())
+            {
+                for (int i = 0; i < dr.FieldCount; i++)
+                {
+                    columns.Add(dr.GetName(i));
+                }
+            }
+
+            
+
+            foreach (var col in columns)
+            {
+                if (col.StartsWith("ng"))
+                {
+                    result["NG"].Add(col.Replace("ng", ""));
+                }
+                else
+                {
+                    result["SCRAP"].Add(col.Replace("scrap", ""));
+                }
+            }
+            //SqlDataAdapter adapter = new SqlDataAdapter(command);
+            //adapter.Fill(sqlTableLot);
+
+            return result;
+        }
     }
 }
